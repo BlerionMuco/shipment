@@ -10,3 +10,10 @@ export interface IArea {
   id: number;
   label: string;
 }
+
+export interface ICompanyArea {
+  companyName: string;
+  companyId: number;
+  areaId: number;
+  count:number
+}

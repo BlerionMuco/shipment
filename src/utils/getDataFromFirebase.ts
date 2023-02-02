@@ -1,3 +1,6 @@
+import { ICompanyArea } from "../Model/MultiSelectModel";
+import { IShipment } from "../Model/BasicCardModel";
+
 export const getAreasForSelectedCompanies = async (
   selectedCompanies: any = [],
   selectedAreas: any = [],
@@ -12,7 +15,7 @@ export const getAreasForSelectedCompanies = async (
       return response.json();
     })
     .then((data) => {
-      data.forEach((company_area: any) => {
+      data.forEach((company_area: ICompanyArea) => {
         selectedCompanies.forEach((selectedCompany: any) => {
           selectedAreas.forEach((selectedArea: any) => {
             if (
@@ -37,8 +40,8 @@ export const getAreasForSelectedCompanies = async (
   }
 };
 
-export const getShipments = async (company_areas: any) => {
-  let result: any = [];
+export const getShipments = async (company_areas: ICompanyArea[]) => {
+  let result: ICompanyArea[] = [];
   await fetch(
     "https://shipment-df1e4-default-rtdb.firebaseio.com/shipments.json"
   )
@@ -46,24 +49,26 @@ export const getShipments = async (company_areas: any) => {
       return response.json();
     })
     .then((data) => {
-      company_areas.forEach((company_area: any, companyAreaIndex: number) => {
-        let count: number = 0;
+      company_areas.forEach(
+        (company_area: ICompanyArea, companyAreaIndex: number) => {
+          let count: number = 0;
 
-        data.forEach((shipment: any, shipmentIndex: number) => {
-          if (
-            company_area.companyId === shipment.companyId &&
-            company_area.areaId === shipment.areaId
-          ) {
-            count++;
-          }
-          if (data.length - 1 === shipmentIndex) {
-            company_areas[companyAreaIndex].count = count;
-          }
-        });
-      });
+          data.forEach((shipment: IShipment, shipmentIndex: number) => {
+            if (
+              company_area.companyId === shipment.companyId &&
+              company_area.areaId === shipment.areaId
+            ) {
+              count++;
+            }
+            if (data.length - 1 === shipmentIndex) {
+              company_areas[companyAreaIndex].count = count;
+            }
+          });
+        }
+      );
     });
   result = company_areas.sort(
-    (company_area1: any, company_area2: any) =>
+    (company_area1: ICompanyArea, company_area2: ICompanyArea) =>
       company_area2.count - company_area1.count
   );
 
