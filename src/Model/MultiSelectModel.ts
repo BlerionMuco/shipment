@@ -15,5 +15,5 @@ export interface ICompanyArea {
   companyName: string;
   companyId: number;
   areaId: number;
-  count:number
+  count: number;
 }

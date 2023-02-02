@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import Skeleton from "@mui/material/Skeleton";
 import Box from "@mui/material/Box";
 
@@ -12,6 +12,6 @@ const MuiSkeleton = () => {
       </Box>
     </div>
   );
-}
+};
 
 export default MuiSkeleton;
